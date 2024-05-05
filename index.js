@@ -1,11 +1,22 @@
-function minMeetingRooms(intervals) {
-  intervals.sort((a, b) => a[0] - b[0]);
-  const minHeap = new MinHeap();
-  for (const interval of intervals) {
-    if (minHeap.size() > 0 && minHeap.peek() <= interval[0]) {
-      minHeap.pop();
+function mergeSort(arr) {
+  if (arr.length <= 1) return arr;
+  const mid = Math.floor(arr.length / 2);
+  const left = mergeSort(arr.slice(0, mid));
+  const right = mergeSort(arr.slice(mid));
+  return merge(left, right);
+}
+function merge(left, right) {
+  let result = [];
+  let leftIndex = 0;
+  let rightIndex = 0;
+  while (leftIndex < left.length && rightIndex < right.length) {
+    if (left[leftIndex] < right[rightIndex]) {
+      result.push(left[leftIndex]);
+      leftIndex++;
+    } else {
+      result.push(right[rightIndex]);
+      rightIndex++;
     }
-    minHeap.push(interval[1]);
   }
-  return minHeap.size();
+  return result.concat(left.slice(leftIndex)).concat(right.slice(rightIndex));
 }
