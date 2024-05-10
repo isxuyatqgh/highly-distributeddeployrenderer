@@ -1,10 +1,27 @@
-const factorial = (n) => {
-  if (n === 0 || n === 1) {
-    return 1;
+function Trie() {
+  this.root = {};
+}
+Trie.prototype.insert = function (word) {
+  let node = this.root;
+  for (const char of word) {
+    if (!node[char]) node[char] = {};
+    node = node[char];
   }
-  let result = 1;
-  for (let i = 2; i <= n; i++) {
-    result *= i;
+  node.isEnd = true;
+};
+Trie.prototype.search = function (word) {
+  let node = this.root;
+  for (const char of word) {
+    if (!node[char]) return false;
+    node = node[char];
   }
-  return result;
+  return node.isEnd === true;
+};
+Trie.prototype.startsWith = function (prefix) {
+  let node = this.root;
+  for (const char of prefix) {
+    if (!node[char]) return false;
+    node = node[char];
+  }
+  return true;
 };
